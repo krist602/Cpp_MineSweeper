@@ -16,5 +16,29 @@ void hdlMine::askLevel()
 
 void hdlMine::startMine()
 {
-	//mineGame(getLevel());
+	askLevel();
+	mineGame.setLevel(getLevel());
+	mineGame.layMine();
+
+	while (1)
+	{
+		mineGame.printBoard();
+		cout << "Please select num" << endl;
+		cin >> x >> y;
+
+		cout << "What are you want? (dig : 1, set flag : 2)" << endl;
+		cin >> select;
+
+		switch (select)
+		{
+		case 1:
+			mineGame.dig(x, y);
+			break;
+		case 2:
+			mineGame.flag(x, y);
+			break;
+		default:
+			break;
+		}
+	}
 }

@@ -1,6 +1,6 @@
 #include "minesweeper.h"
 
-minesweeper::minesweeper(int level)
+void minesweeper::setLevel(int level)
 {
 	switch (level)
 	{
@@ -32,6 +32,29 @@ minesweeper::minesweeper(int level)
 		board[0][i] = { i, true };
 }
 
+void minesweeper::printBoard()
+{
+	for (int i = 0; i <= X; i++)
+	{
+		for (int j = 0; j <= Y; j++)
+		{
+			//cout << board[i][j].first << " ";
+			if (board[i][j].second == true)
+			{
+				if (board[i][j].first <= 100)
+					cout << board[i][j].first << " ";
+				else
+					cout << "* ";
+			}
+			else
+			{
+				cout << ". ";
+			}
+		}
+		cout << endl;
+	}
+}
+
 void minesweeper::layMine()
 {
 	int x = 0, y = 0;
@@ -42,20 +65,21 @@ void minesweeper::layMine()
 		y = rand() % Y + 1;
 		if (board[x][y].first == -1)
 			continue;
-
-		board[x][y].first = -1;
-		i++;
+		else
+			board[x][y].first = -1;
+		
 		if (x == 1)
 		{
 			if (y == 1)
 			{
 				for (int j = x; j <= x + 1; j++)
 				{
-					for (int k = y; y <= y + 1; k++)
+					for (int k = y; k <= y + 1; k++)
 					{
 						if (board[j][k].first == -1)
 							continue;
-						board[j][k].first += 1;
+						else
+							board[j][k].first += 1;
 					}
 				}
 			}
@@ -63,11 +87,12 @@ void minesweeper::layMine()
 			{
 				for (int j = x; j <= x + 1; j++)
 				{
-					for (int k = y - 1; y <= y + 1; k++)
+					for (int k = y - 1; k <= y + 1; k++)
 					{
 						if (board[j][k].first == -1)
 							continue;
-						board[j][k].first += 1;
+						else
+							board[j][k].first += 1;
 					}
 				}
 			}
@@ -76,43 +101,46 @@ void minesweeper::layMine()
 		{
 			for (int j = x - 1; j <= x + 1; j++)
 			{
-				for (int k = y; y <= y + 1; k++)
+				for (int k = y; k <= y + 1; k++)
 				{
 					if (board[j][k].first == -1)
 						continue;
-					board[j][k].first += 1;
+					else
+						board[j][k].first += 1;
 				}
 			}
 		}
 		else
 		{
-			for (int j = x - 1; j <= X + 1; j++)
+			for (int j = x - 1; j <= x + 1; j++)
 			{
-				for (int k = y - 1; y <= y + 1; k++)
+				for (int k = y - 1; k <= y + 1; k++)
 				{
 					if (board[j][k].first == -1)
 						continue;
-					board[j][k].first += 1;
+					else
+						board[j][k].first += 1;
 				}
 			}
 		}
+		i++;
 	}
 }
 
-void minesweeper::dig(int x, int y)
+bool minesweeper::dig(int x, int y)
 {
 	if (board[x][y].first <= 10)
 	{
 		if (board[x][y].first == -1)
 		{
 			cout << "BOOM" << endl;
-			return;
+			return false;
 		}
 		else
 		{
 			board[x][y].second = true;
 
-			return;
+			return true;
 		}
 	}
 	else if (board[x][y].first >= 100)

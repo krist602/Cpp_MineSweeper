@@ -5,8 +5,11 @@
 class hdlMine
 {
 private:
-	int level;
+	int level = 0;
 	minesweeper mineGame;
+	int x = 0;
+	int y = 0;
+	int select = 0;
 public:
 	int getLevel();
 	void askLevel();
