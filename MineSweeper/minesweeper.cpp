@@ -9,7 +9,7 @@ void minesweeper::setLevel(int level)
 		Y = 9;
 		numMine = 10;
 		break;
-	case Lev::MIDIUM:
+	case Lev::NORMAL:
 		X = 16;
 		Y = 16;
 		numMine = 40;
@@ -125,7 +125,7 @@ void minesweeper::layMine() //랜덤으로 지뢰 위치 선정
 			continue;
 		else
 			board[y][x].first = -1;
-		cout << i << "번째 지뢰 : " << y << " " << x << endl;
+		//cout << i << "번째 지뢰 : " << y << " " << x << endl;
 		
 		//지뢰를 심은 이후에 지뢰 주위에 숫자들을 +=1을 해준다.
 		if (x == 1)
@@ -229,6 +229,7 @@ bool minesweeper::dig(int y, int x)
 		cout << "뭐야 당신 여기 어떻게 들어왔어" << endl;
 		return true;
 	}
+	return true;
 }
 
 void minesweeper::flag(int y, int x)

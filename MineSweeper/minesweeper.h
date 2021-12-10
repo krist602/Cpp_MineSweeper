@@ -6,12 +6,11 @@ class minesweeper
 {
 private:
 	pair<int, bool> board[32][18]; // 게임 보드. 지뢰 = -1, 주위에 지뢰가 있는 숫자만큼 숫자 배분. bool값이 TRUE 라면 Visible True. 깃발이면 += 110으로 해두자.
-	int timer; // 클리어 시간
-	int numMine; // 지뢰의 수
-	int numFlag; // 깃발의 수
-	int numDig; // Dig의 수
-	int X;
-	int Y;
+	int numMine = 0; // 지뢰의 수
+	int numFlag = 0; // 깃발의 수
+	int numDig = 0; // Dig의 수
+	int X = 0;
+	int Y = 0;
 public:
 	void setLevel(int level); // 난이도에 따라서 변수 초기화
 	void printBoard(); // 게임판 출력

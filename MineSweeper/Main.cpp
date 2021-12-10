@@ -4,7 +4,8 @@ using namespace std;
 int main()
 {
 	hdlMine Mine;
-	Mine.startMine();
+	Mine.mainMenu();
 
+	system("pause");
 	return 0;
 }
