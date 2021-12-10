@@ -15,8 +15,8 @@ void minesweeper::setLevel(int level)
 		numMine = 40;
 		break;
 	case Lev::HARD:
-		X = 30;
-		Y = 16;
+		X = 16;
+		Y = 30;
 		numMine = 99;
 		break;
 	default:
@@ -24,12 +24,12 @@ void minesweeper::setLevel(int level)
 	}
 	for (int i = 1; i <= X; i++)
 		for (int j = 1; j <= Y; j++)
-			board[i][j] = { 0, false };
+			board[j][i] = { 0, false };
 
 	for (int i = 1; i <= X; i++)
-		board[i][0] = { i, true };
-	for (int i = 1; i <= Y; i++)
 		board[0][i] = { i, true };
+	for (int i = 1; i <= Y; i++)
+		board[i][0] = { i, true };
 }
 
 void minesweeper::printBoard()
@@ -38,11 +38,11 @@ void minesweeper::printBoard()
 	{
 		for (int j = 0; j <= Y; j++)
 		{
-			//cout << board[i][j].first << " ";
-			if (board[i][j].second == true)
+			//cout << board[j][i].first << " ";
+			if (board[j][i].second == true)
 			{
-				if (board[i][j].first <= 100)
-					cout << board[i][j].first << " ";
+				if (board[j][i].first <= 100)
+					cout << board[j][i].first << " ";
 				else
 					cout << "* ";
 			}
@@ -63,11 +63,11 @@ void minesweeper::layMine()
 	{
 		x = rand() % X + 1;
 		y = rand() % Y + 1;
-		if (board[x][y].first == -1)
+		if (board[y][x].first == -1)
 			continue;
 		else
-			board[x][y].first = -1;
-		
+			board[y][x].first = -1;
+		cout << i << "번째 지뢰 : " << x << " " << y << endl;
 		if (x == 1)
 		{
 			if (y == 1)
@@ -76,10 +76,10 @@ void minesweeper::layMine()
 				{
 					for (int k = y; k <= y + 1; k++)
 					{
-						if (board[j][k].first == -1)
+						if (board[k][j].first == -1)
 							continue;
 						else
-							board[j][k].first += 1;
+							board[k][j].first += 1;
 					}
 				}
 			}
@@ -89,10 +89,10 @@ void minesweeper::layMine()
 				{
 					for (int k = y - 1; k <= y + 1; k++)
 					{
-						if (board[j][k].first == -1)
+						if (board[k][j].first == -1)
 							continue;
 						else
-							board[j][k].first += 1;
+							board[k][j].first += 1;
 					}
 				}
 			}
@@ -103,10 +103,10 @@ void minesweeper::layMine()
 			{
 				for (int k = y; k <= y + 1; k++)
 				{
-					if (board[j][k].first == -1)
+					if (board[k][j].first == -1)
 						continue;
 					else
-						board[j][k].first += 1;
+						board[k][j].first += 1;
 				}
 			}
 		}
@@ -116,10 +116,10 @@ void minesweeper::layMine()
 			{
 				for (int k = y - 1; k <= y + 1; k++)
 				{
-					if (board[j][k].first == -1)
+					if (board[k][j].first == -1)
 						continue;
 					else
-						board[j][k].first += 1;
+						board[k][j].first += 1;
 				}
 			}
 		}
@@ -127,14 +127,51 @@ void minesweeper::layMine()
 	}
 }
 
-bool minesweeper::dig(int x, int y)
+bool minesweeper::dig(int y, int x)
 {
+	if (x <= 0 || x>X || y > Y || y <= 0) 
+		return false;
+	if (board[x][y].second == true)
+		return false;
+
 	if (board[x][y].first <= 10)
 	{
 		if (board[x][y].first == -1)
 		{
 			cout << "BOOM" << endl;
 			return false;
+		}
+		else if (board[x][y].first == 0)
+		{
+			for (int j = x - 1; j <= x + 1; j++)
+				for (int k = y - 1; k <= y + 1; k++)
+				{
+					board[x][y].second = true;
+					dig(k, j);
+				}
+			/*if (x == 1)
+			{
+				if (y == 1)
+					for (int j = x; j <= x + 1; j++)
+						for (int k = y; k <= y + 1; k++)
+							dig(k, j);
+				else
+					for (int j = x; j <= x + 1; j++)
+						for (int k = y - 1; k <= y + 1; k++)
+							dig(k, j);
+			}
+			else if (y == 1)
+			{
+				for (int j = x - 1; j <= x + 1; j++)
+					for (int k = y; k <= y + 1; k++)
+						dig(k, j);
+			}
+			else
+			{
+				for (int j = x - 1; j <= x + 1; j++)
+					for (int k = y - 1; k <= y + 1; k++)
+						dig(k, j);
+			}*/
 		}
 		else
 		{
@@ -146,6 +183,7 @@ bool minesweeper::dig(int x, int y)
 	else if (board[x][y].first >= 100)
 	{
 		cout << "FLAG" << endl;
+		return false;
 	}
 	else
 	{
@@ -153,7 +191,7 @@ bool minesweeper::dig(int x, int y)
 	}
 }
 
-void minesweeper::flag(int x, int y)
+void minesweeper::flag(int y, int x)
 {
 	if (board[x][y].first <= 10) //깃발이 아니라면
 	{

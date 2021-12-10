@@ -32,10 +32,10 @@ void hdlMine::startMine()
 		switch (select)
 		{
 		case 1:
-			mineGame.dig(x, y);
+			mineGame.dig(y, x);
 			break;
 		case 2:
-			mineGame.flag(x, y);
+			mineGame.flag(y, x);
 			break;
 		default:
 			break;
