@@ -1,6 +1,6 @@
 #include "hdlMine.h"
 
-int hdlMine::getLevel()
+int hdlMine::getLevel() const
 {
 	return level;
 }
@@ -29,6 +29,32 @@ void hdlMine::startMine()
 		cout << "What are you want? (dig : 1, set flag : 2)" << endl;
 		cin >> select;
 
+		if (select == 1)
+		{
+			if (mineGame.dig(y, x) == false)
+			{
+				mineGame.printMine();
+				cout << "You stepped on a mine." << endl;
+				cout << "¢º : Correct flag \t ¢¹ : Wrong flag" << endl << "¡Ù : Mine \t\t ¡Ú : You stepped this mine" << endl;
+				break;
+			}
+			if (mineGame.getDig() == 0)
+			{
+				mineGame.printMine();
+				cout << "Congraturation! You've found all the mines." << endl;
+				cout << "¢º : Correct flag" << endl;
+				break;
+			}
+		}
+		else if (select == 2)
+		{
+			mineGame.flag(y, x);
+		}
+		else
+		{
+
+		}
+		/*
 		switch (select)
 		{
 		case 1:
@@ -40,5 +66,6 @@ void hdlMine::startMine()
 		default:
 			break;
 		}
+		*/
 	}
 }

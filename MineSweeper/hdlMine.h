@@ -11,7 +11,7 @@ private:
 	int y = 0;
 	int select = 0;
 public:
-	int getLevel();
+	int getLevel() const;
 	void askLevel();
 	void startMine();
 };
