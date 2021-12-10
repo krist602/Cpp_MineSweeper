@@ -21,5 +21,5 @@ public:
 	bool dig(int x, int y); // 땅 파기. 지뢰라면 폭발. 아니라면 숫자를 보여주고 숫자가 0이라면 주위에 0인 곳을 연달아 이어서 열어줘야한다. 상하좌우 연결되어있는 곳을 다 열어줘야하기 때문에, BFS활용 해보기. 깃발이 꽂혀있으면 열지 못하도록.
 	void flag(int x, int y); // 깃발 표시. 깃발로 선택한 곳은 +=110으로 한다.
 	int getDig() const;
-
+	int getFlag() const;
 };

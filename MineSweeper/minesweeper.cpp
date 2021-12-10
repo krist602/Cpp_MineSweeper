@@ -22,7 +22,10 @@ void minesweeper::setLevel(int level)
 	default:
 		break;
 	}
+
+	numFlag = 0;
 	numDig = X * Y - numMine;
+
 	for (int i = 1; i <= X; i++)
 		for (int j = 1; j <= Y; j++)
 			board[j][i] = { 0, false };
@@ -187,9 +190,9 @@ void minesweeper::layMine() //랜덤으로 지뢰 위치 선정
 bool minesweeper::dig(int y, int x)
 {
 	if (x <= 0 || x > X || y > Y || y <= 0) 
-		return false;
+		return true;
 	if (board[x][y].second == true)
-		return false;
+		return true;
 
 	if (board[x][y].first <= 10)
 	{
@@ -204,8 +207,9 @@ bool minesweeper::dig(int y, int x)
 			for (int j = x - 1; j <= x + 1; j++)
 				for (int k = y - 1; k <= y + 1; k++)
 				{
+					if(board[x][y].second == false)
+						numDig -= 1;
 					board[x][y].second = true; // 본인을 0으로 만들고
-					numDig -= 1;
 					dig(k, j); //주위에 다시 탐색
 				}
 		}
@@ -239,6 +243,7 @@ void minesweeper::flag(int y, int x)
 
 		board[x][y].second = true;
 		board[x][y].first += 110; //깃발 심기
+		numFlag += 1;
 
 		return;
 	}
@@ -246,6 +251,7 @@ void minesweeper::flag(int y, int x)
 	{
 		board[x][y].second = false;
 		board[x][y].first -= 110;
+		numFlag -= 1;
 
 		return;
 	}
@@ -254,5 +260,10 @@ void minesweeper::flag(int y, int x)
 int minesweeper::getDig() const
 {
 	return numDig;
+}
+
+int minesweeper::getFlag() const
+{
+	return numFlag;
 }
 

@@ -23,7 +23,7 @@ void hdlMine::startMine()
 	while (1)
 	{
 		mineGame.printBoard();
-		cout << "Please select num" << endl;
+		cout << "Please select num\t\tFlag Number : " << mineGame.getFlag() << endl;//<<"\t\tget Dig : "<<mineGame.getDig() << endl;
 		cin >> x >> y;
 
 		cout << "What are you want? (dig : 1, set flag : 2)" << endl;
@@ -42,7 +42,7 @@ void hdlMine::startMine()
 			{
 				mineGame.printMine();
 				cout << "Congraturation! You've found all the mines." << endl;
-				cout << "¢º : Correct flag" << endl;
+				cout << "¢º : Correct flag\t ¡Ù : Mine" << endl;
 				break;
 			}
 		}
