@@ -4,8 +4,9 @@ class player
 {
 private:
 	string name;
-	int timer;
+	float timer;
 public:
-
+	void setName(string name);
+	void inputTime(float second);
 };
 

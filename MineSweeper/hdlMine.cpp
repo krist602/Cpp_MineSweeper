@@ -16,10 +16,13 @@ void hdlMine::askLevel()
 
 void hdlMine::startMine()
 {
+	clock_t start, finish;
+	float record;
 	askLevel();
 	mineGame.setLevel(getLevel());
 	mineGame.layMine();
 
+	start = clock();
 	while (1)
 	{
 		mineGame.printBoard();
@@ -32,7 +35,7 @@ void hdlMine::startMine()
 		if (select == 1)
 		{
 			if (mineGame.dig(y, x) == false)
-			{
+			{				
 				mineGame.printMine();
 				cout << "You stepped on a mine." << endl;
 				cout << "¢º : Correct flag \t ¢¹ : Wrong flag" << endl << "¡Ù : Mine \t\t ¡Ú : You stepped this mine" << endl;
@@ -40,9 +43,12 @@ void hdlMine::startMine()
 			}
 			if (mineGame.getDig() == 0)
 			{
+				finish = clock();
+				record = (float)(finish - start) / CLOCKS_PER_SEC;
 				mineGame.printMine();
 				cout << "Congraturation! You've found all the mines." << endl;
-				cout << "¢º : Correct flag\t ¡Ù : Mine" << endl;
+				cout << "¢º : Correct flag\t ¡Ù : Mine" << endl << endl;
+				cout << "Your record : " << record << endl;
 				break;
 			}
 		}
