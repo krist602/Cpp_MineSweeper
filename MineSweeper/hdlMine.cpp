@@ -102,13 +102,23 @@ int hdlMine::getLevel() const
 	return level;
 }
 
-void hdlMine::askLevel()
+bool hdlMine::askLevel()
 {
 	int level;
 	cout << "Please enter the desired level of difficulty." << endl;
 	cout << "EASY : 1\tNORMAL : 2\tHARD : 3" << endl;
 	cin >> level;
-	this->level = level;
+	if (cin.fail())
+	{
+		cin.clear();
+		cin.ignore(256, '\n');
+	}
+	if (level <= 3 && level >= 1)
+	{
+		this->level = level;
+		return true;
+	}
+	return false;
 }
 
 void hdlMine::mainMenu()
@@ -117,6 +127,11 @@ void hdlMine::mainMenu()
 	{
 		cout << "Select Menu" << endl << "1. Game Start" << endl << "2. Record" << endl << "3. exit" << endl;
 		cin >> select;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
 		if (select == 1)
 			startMine();
 		else if (select == 2)
@@ -125,7 +140,6 @@ void hdlMine::mainMenu()
 			break;
 		else
 			cout << "Wrong Number" << endl;
-
 	}
 }
 
@@ -133,7 +147,10 @@ void hdlMine::startMine()
 {
 	clock_t start, finish;
 	float record;
-	askLevel();
+	while (1)
+		if (askLevel() == true)
+			break;
+	
 	mineGame.setLevel(getLevel());
 	mineGame.layMine();
 
@@ -143,9 +160,19 @@ void hdlMine::startMine()
 		mineGame.printBoard();
 		cout << "Please select num\t\tFlag Number : " << mineGame.getFlag() << endl;//<<"\t\tget Dig : "<<mineGame.getDig() << endl;
 		cin >> x >> y;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
 
 		cout << "What are you want? (dig : 1, set flag : 2)" << endl;
 		cin >> select;
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(256, '\n');
+		}
 
 		if (select == 1)
 		{
@@ -198,19 +225,6 @@ void hdlMine::startMine()
 		{
 
 		}
-		/*
-		switch (select)
-		{
-		case 1:
-			mineGame.dig(y, x);
-			break;
-		case 2:
-			mineGame.flag(y, x);
-			break;
-		default:
-			break;
-		}
-		*/
 	}
 }
 
@@ -222,6 +236,11 @@ void hdlMine::checkRecord()
 	cout << "Please enter the desired level of difficulty." << endl;
 	cout << "EASY : 1\tNORMAL : 2\tHARD : 3" << endl;
 	cin >> select;
+	if (cin.fail())
+	{
+		cin.clear();
+		cin.ignore(256, '\n');
+	}
 	switch (select)
 	{
 	case Lev::EASY:
@@ -257,6 +276,20 @@ void hdlMine::checkRecord()
 		readFile.close();
 		break;
 	case Lev::HARD:
+		readFile.open("difHard.txt");
+		if (readFile.is_open())
+		{
+			while (!readFile.eof())
+			{
+				getline(readFile, str);
+				if (flag == false)
+					cout << str << "\t\t";
+				else
+					cout << str << endl;
+				flag = !flag;
+			}
+		}
+		readFile.close();
 		break;
 	default:
 		break;

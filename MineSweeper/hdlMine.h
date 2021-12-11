@@ -17,7 +17,7 @@ private:
 public:
 	hdlMine();
 	int getLevel() const;
-	void askLevel();
+	bool askLevel();
 	void mainMenu();
 	void startMine();
 	void checkRecord();

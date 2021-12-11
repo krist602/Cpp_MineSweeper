@@ -93,7 +93,7 @@ void minesweeper::printMine()
 				}
 				else if (board[j][i].first <= 100)
 				{
-					cout << board[j][i].first << " ";				
+					cout << board[j][i].first << " ";
 					continue;
 				}
 				else if (board[j][i].first > 100)//깃발은 *로 표시
@@ -126,7 +126,7 @@ void minesweeper::layMine() //랜덤으로 지뢰 위치 선정
 		else
 			board[y][x].first = -1;
 		//cout << i << "번째 지뢰 : " << y << " " << x << endl;
-		
+
 		//지뢰를 심은 이후에 지뢰 주위에 숫자들을 +=1을 해준다.
 		if (x == 1)
 		{
@@ -189,44 +189,32 @@ void minesweeper::layMine() //랜덤으로 지뢰 위치 선정
 
 bool minesweeper::dig(int y, int x)
 {
-	if (x <= 0 || x > X || y > Y || y <= 0) 
+	if (x <= 0 || x > Y || y > X || y <= 0) //범위를 벗어나면 바로 돌려보낸다.
 		return true;
-	if (board[x][y].second == true)
+	if (board[x][y].second == true) // 이미 밝혀져있다면 돌려보낸다.
 		return true;
 
-	if (board[x][y].first <= 10)
+	if (board[x][y].first == -1) //-1이라면
 	{
-		if (board[x][y].first == -1) //-1이라면
-		{
-			cout << "BOOM" << endl; //지뢰가 터진다.
-			board[x][y].first = -10;
-			return false;
-		}
-		else if (board[x][y].first == 0) //주위에 지뢰가 없다면
-		{
-			for (int j = x - 1; j <= x + 1; j++)
-				for (int k = y - 1; k <= y + 1; k++)
-				{
-					if(board[x][y].second == false)
-						numDig -= 1;
-					board[x][y].second = true; // 본인을 0으로 만들고
-					dig(k, j); //주위에 다시 탐색
-				}
-		}
-		else //
-		{
-			board[x][y].second = true;
-			numDig -= 1;
-			return true;
-		}
+		cout << "BOOM" << endl; //지뢰가 터진다.
+		board[x][y].first = -10;
+		return false;
 	}
-	else if (board[x][y].first >= 100)
+	else if (board[x][y].first == 0) //주위에 지뢰가 없다면
 	{
-		return true;
+		for (int j = x - 1; j <= x + 1; j++)
+			for (int k = y - 1; k <= y + 1; k++)
+			{
+				if (board[x][y].second == false)
+					numDig -= 1;
+				board[x][y].second = true; // 본인을 0으로 만들고
+				dig(k, j); //주위에 다시 탐색
+			}
 	}
-	else
+	else //0이 아닌 숫자라면 밝혀주고, 남은 땅을 -=1. 
 	{
-		cout << "뭐야 당신 여기 어떻게 들어왔어" << endl;
+		board[x][y].second = true;
+		numDig -= 1;
 		return true;
 	}
 	return true;
@@ -251,7 +239,7 @@ void minesweeper::flag(int y, int x)
 	else //깃발이라면
 	{
 		board[x][y].second = false;
-		board[x][y].first -= 110;
+		board[x][y].first -= 110; //깃발 풀기
 		numFlag -= 1;
 
 		return;

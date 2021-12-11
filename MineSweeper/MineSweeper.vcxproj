@@ -141,13 +141,11 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="minesweeper.cpp" />
-    <ClCompile Include="player.cpp" />
     <ClCompile Include="hdlMine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
     <ClInclude Include="minesweeper.h" />
-    <ClInclude Include="player.h" />
     <ClInclude Include="hdlMine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
